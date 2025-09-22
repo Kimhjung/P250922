@@ -19,13 +19,13 @@ int main() {
 	}
 	*/
 	
-	for (int i = 1; i <= count; ++i)
+	for (int i = 0; i < count; ++i)
 	{
-		for (int j = 0; j < 0+(i-1); ++j)
+		for (int j = 0; j < 0 + i; ++j)
 		{
 			cout << " ";
 		}
-		for (int j = 0; j < count - (i - 1); ++j)
+		for (int j = 0; j < count - i; ++j)
 		{
 			cout << "*";
 		}
