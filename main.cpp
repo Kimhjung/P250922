@@ -14,7 +14,7 @@ int World[10][10] =
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 1, 0, 0, 0, 1, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -38,6 +38,16 @@ int PlayerMinY = 1;
 int PlayerMaxX = 8;
 int PlayerMaxY = 8;
 
+// x, y 좌표값이 0이면 true / 0이 아니면 false
+bool Predict(int NewX, int NewY)
+{
+	if (World[NewY][NewX] == 0) {
+		return true;
+	}
+
+	return false;
+}
+
 void Input()
 {
 	KeyCode = _getch();
@@ -45,21 +55,36 @@ void Input()
 
 void Process()
 {
+	//전진 키 눌렀을 때
 	if (KeyCode == 'W' || KeyCode == 'w')
 	{
-		PlayerY--;
+		//지금 위치에서 한 칸 위 좌표값이 0이면
+		if (Predict(PlayerX, PlayerY - 1))
+		{
+			// 한 칸 전진
+			PlayerY--;
+		}
 	}
 	else if (KeyCode == 'A' || KeyCode == 'a')
 	{
-		PlayerX--;
+		if (Predict(PlayerX -1, PlayerY))
+		{
+			PlayerX--;
+		}
 	}
 	else if (KeyCode == 'S' || KeyCode == 's')
 	{
-		PlayerY++;
+		if (Predict(PlayerX, PlayerY + 1))
+		{
+			PlayerY++;
+		}
 	}
 	else if (KeyCode == 'D' || KeyCode == 'd')
 	{
-		PlayerX++;
+		if (Predict(PlayerX + 1, PlayerY))
+		{
+			PlayerX++;
+		}
 	}
 	else if (KeyCode == 'Q' || KeyCode == 'q')
 	{
@@ -70,6 +95,12 @@ void Process()
 void Render()
 {
 	system("cls");
+
+
+	/*
+	//이 방식이 틀린 이유
+	//1. 렌더링에 프로세스 코드를 넣음
+	//2. 최대 공간의 벽에만 막힘. 맵 중간의 장애물은 막히지 않음
 
 	if (PlayerX < PlayerMinX) {
 		PlayerX = PlayerMinX;
@@ -83,6 +114,7 @@ void Render()
 	else if (PlayerY > PlayerMaxY) {
 		PlayerY = PlayerMaxY;
 	}
+	*/
 
 	for (int Y = 0; Y < 10; ++Y)
 	{
